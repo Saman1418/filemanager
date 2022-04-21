@@ -38,7 +38,7 @@ router.post("/SignUp", async (req, res) => {
     res.status(200).send(user);
   } catch (e) {
     console.log(e);
-    res.json({ message: "Error creating SignUp" });
+    res.status(400).send({ message: "Please check your Signup credentials" });
   }
 });
 

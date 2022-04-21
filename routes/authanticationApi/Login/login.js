@@ -34,7 +34,7 @@ router.post("/Login", async (req, res) => {
     res.status(200).send(resp);
   } catch (e) {
     console.log(e);
-    res.json({ message: "Error creating login" });
+    res.status(400).send({ message: "Please check your login credentials" });
   }
 });
 
