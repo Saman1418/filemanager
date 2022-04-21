@@ -35,7 +35,7 @@ router.post("/addUserFile", async (req, res) => {
 
   } catch (e) {
     console.log(e);
-    res.json({ message: "Error creating files" });
+    res.status(400).send({ message: "Error creating files" });
   }
 });
 
@@ -81,7 +81,7 @@ router.get("/getUserFile", async (req, res) => {
 
   } catch (e) {
     console.log(e);
-    res.json({ message: "Error getting files" });
+    res.status(400).send({ message: "Error getting files" });
   }
 
 });

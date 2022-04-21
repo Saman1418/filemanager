@@ -22,8 +22,8 @@ router.post("/addUserFolder", async (req, res) => {
         lastAccessed: new Date(),
         name: req.body.name,
         updatedAt: new Date(),
-        path: req.body.path,
-        parent: req.body.parent,
+        path: [],
+        parent: "",
       
   }
   try {
@@ -32,11 +32,11 @@ router.post("/addUserFolder", async (req, res) => {
     const folder = await collectionRef.add(docsData)
     const data = await folder.get();
     console.log("docs", data);
-    res.status(200).send(data);
+    res.status(200).send(docsData);
 
   } catch (e) {
     console.log(e);
-    res.json({ message: "Error creating folder" });
+    res.status(400).send({ message: "Error creating folder" });
   }
 });
 
@@ -66,7 +66,7 @@ router.get("/getUserFolder", async (req, res) => {
 
   } catch (e) {
     console.log(e);
-    res.json({ message: "Error getting folder" });
+    res.status(400).send({ message: "Error getting folder" });
   }
 
 });
