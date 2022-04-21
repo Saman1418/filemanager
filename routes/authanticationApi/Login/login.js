@@ -15,7 +15,6 @@ router.post("/Login", async (req, res) => {
   let collectionRef = firestore.collection("users");
   const LoginData = {
       email:req.body.email,
-      
       password:req.body.password,
   }
   try {
@@ -23,10 +22,16 @@ router.post("/Login", async (req, res) => {
       .auth()
       .signInWithEmailAndPassword(LoginData.email,LoginData.password);
 
+      const resp = {
+        uid:loginUser.user.uid,
+        name:loginUser.user.displayName,
+        email:loginUser.user.email
+      }
+
     
     const userData = await collectionRef.where("uid","==",loginUser.user.uid).get();
     // console.log("docs", userData.docs);
-    res.status(200).send(userData.docs);
+    res.status(200).send(resp);
   } catch (e) {
     console.log(e);
     res.json({ message: "Error creating login" });
