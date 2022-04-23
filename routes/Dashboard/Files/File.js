@@ -20,7 +20,7 @@ router.post("/addUserFile", async (req, res) => {
     createdAt: new Date(),
     createdBy: req.body.createdBy,
     // data: data,
-    name: req.body.name,
+    fileName: req.body.fileName,
     parent: req.body.parent,
     updatedAt: new Date(),
     url: req.body.url,
@@ -28,10 +28,10 @@ router.post("/addUserFile", async (req, res) => {
     tags:req.body.tags
   }
   try {
-    const files = await collectionRef.add(fileData)
+    const files = await collectionRef.add()
     const data = await files.get();
     console.log("docs", data);
-    res.status(200).send(data);
+    res.status(200).send(fileData);
 
   } catch (e) {
     console.log(e);
@@ -46,7 +46,7 @@ router.get("/getUserFile", async (req, res) => {
   let collectionRef = firestore.collection("files");
   const queryObject = req.query;
     const userId = queryObject["userId"] ? queryObject["userId"] : "";
-    const parentId = queryObject["parentId"] ? queryObject["parentId"] : "";
+    const parent = queryObject["parent"] ? queryObject["parent"] : "";
     const tags = queryObject["tags"] ? queryObject["tags"] : "";
 
     
@@ -56,8 +56,8 @@ router.get("/getUserFile", async (req, res) => {
         
     }
     
-    if(parentId){
-        collectionRef = collectionRef.where("parent", "==", parentId);
+    if(parent){
+        collectionRef = collectionRef.where("parent", "==", parent);
     }
 
     if(tags){
