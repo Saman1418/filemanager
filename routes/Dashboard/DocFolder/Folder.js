@@ -26,9 +26,9 @@ var randomColor = '#'+ Math.floor(Math.random()*16777215).toString(16);
         name: req.body.name,
         updatedAt: new Date(),
         path: [],
-        parent: "",
-        colour:req.body.colour,
-        parentName:req.body.parentName
+        // parent: "",
+        color:req.body.color,
+        parent:req.body.parent
       
   }
   try {
@@ -52,14 +52,14 @@ router.get("/getUserFolder", async (req, res) => {
   let collectionRef = firestore.collection("docs");
   const queryObject = req.query;
     const userId = queryObject["userId"] ? queryObject["userId"] : "";
-    const parentName = queryObject["parentName"] ? queryObject["parentName"] : "";
+    const parent = queryObject["parentName"] ? queryObject["parentName"] : "";
 
     if(userId){
         collectionRef = collectionRef.where("createdBy", "==", userId);  
     }
 
-    if(parentName){
-      collectionRef = collectionRef.where("parentName", "==", parentName);
+    if(parent){
+      collectionRef = collectionRef.where("parent", "==", parent);
     }
 
 
