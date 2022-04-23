@@ -28,9 +28,9 @@ router.post("/addUserFile", async (req, res) => {
     tags:req.body.tags
   }
   try {
-    const files = await collectionRef.add()
+    const files = await collectionRef.add(fileData)
     const data = await files.get();
-    console.log("docs", data);
+    // console.log("docs", data);
     res.status(200).send(fileData);
 
   } catch (e) {
@@ -64,10 +64,7 @@ router.get("/getUserFile", async (req, res) => {
         collectionRef = collectionRef.where("tags", "==", tags);
     }
     
-    
-
-
-
+  
 
   try {
     const files = await collectionRef.get();

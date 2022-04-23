@@ -80,6 +80,21 @@ router.get("/getUserFolder", async (req, res) => {
 
 });
 
+//----------------delete -----------------------------
+
+router.delete("/deleteUserFolder/:id", async (req, res) => {
+  const id = req.params.folderId;
+  let collectionRef = firestore.collection("docs");
+
+  try {
+    await collectionRef.doc(id).delete();
+
+    res.status(200).send("Folder Deleted");
+  } catch (error) {
+    res.status(401).send(error.message);
+  }
+});
+
 module.exports = router;
 
 // const getUserFolderData = await collectionRef.get();
