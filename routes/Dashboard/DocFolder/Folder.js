@@ -52,14 +52,14 @@ router.get("/getUserFolder", async (req, res) => {
   let collectionRef = firestore.collection("docs");
   const queryObject = req.query;
     const userId = queryObject["userId"] ? queryObject["userId"] : "";
-    const ParentName = queryObject["ParentName"] ? queryObject["ParentName"] : "";
+    const parentName = queryObject["parentName"] ? queryObject["parentName"] : "";
 
     if(userId){
         collectionRef = collectionRef.where("createdBy", "==", userId);  
     }
 
-    if(ParentName){
-      collectionRef = collectionRef.where("ParentName", "==", ParentName);
+    if(parentName){
+      collectionRef = collectionRef.where("parentName", "==", parentName);
     }
 
 
