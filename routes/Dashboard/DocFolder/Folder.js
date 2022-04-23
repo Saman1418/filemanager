@@ -14,6 +14,9 @@ const date = firebase.firestore.FieldValue.serverTimestamp();
 
 // ---------------AddUserFolder------------------------------------//
 router.post("/addUserFolder", async (req, res) => {
+
+
+var randomColor = '#'+ Math.floor(Math.random()*16777215).toString(16);
 //   let collectionRef = firestore.collection("/FileManager/docs/data");
   let collectionRef = firestore.collection("docs");
   const docsData = {
@@ -24,6 +27,8 @@ router.post("/addUserFolder", async (req, res) => {
         updatedAt: new Date(),
         path: [],
         parent: "",
+        colour:req.body.colour,
+        parentName:req.body.parentName
       
   }
   try {
@@ -31,7 +36,7 @@ router.post("/addUserFolder", async (req, res) => {
     
     const folder = await collectionRef.add(docsData)
     const data = await folder.get();
-    console.log("docs", data);
+    // console.log("docs", data);
     res.status(200).send(docsData);
 
   } catch (e) {
@@ -47,10 +52,14 @@ router.get("/getUserFolder", async (req, res) => {
   let collectionRef = firestore.collection("docs");
   const queryObject = req.query;
     const userId = queryObject["userId"] ? queryObject["userId"] : "";
+    const ParentName = queryObject["ParentName"] ? queryObject["ParentName"] : "";
 
     if(userId){
-        collectionRef = collectionRef.where("createdBy", "==", userId);
-        
+        collectionRef = collectionRef.where("createdBy", "==", userId);  
+    }
+
+    if(ParentName){
+      collectionRef = collectionRef.where("ParentName", "==", ParentName);
     }
 
 
