@@ -83,7 +83,7 @@ router.get("/getUserFolder", async (req, res) => {
 //----------------delete -----------------------------
 
 router.delete("/deleteUserFolder/:id", async (req, res) => {
-  const id = req.params.folderId;
+  const id = req.params.id;
   let collectionRef = firestore.collection("docs");
 
   try {

@@ -25,7 +25,8 @@ router.post("/addUserFile", async (req, res) => {
     updatedAt: new Date(),
     url: req.body.url,
     path: req.body.path,
-    tags:req.body.tags
+    tags:req.body.tags,
+    color:req.body.color
   }
   try {
     const files = await collectionRef.add(fileData)
@@ -81,6 +82,22 @@ router.get("/getUserFile", async (req, res) => {
     res.status(400).send({ message: "Error getting files" });
   }
 
+});
+
+
+//----------------delete -----------------------------
+
+router.delete("/deleteUserFile/:id", async (req, res) => {
+  const id = req.params.id;
+  let collectionRef = firestore.collection("files");
+
+  try {
+    await collectionRef.doc(id).delete();
+
+    res.status(200).send("File Deleted");
+  } catch (error) {
+    res.status(401).send(error.message);
+  }
 });
 
 module.exports = router;
