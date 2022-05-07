@@ -25,17 +25,18 @@ router.post("/SignUp", async (req, res) => {
       displayName: SignupData.name,
     });
     const newUser = {
-      createdAt: date,
+      createdAt: new Date(),
       //   docs: [],
       email: req.body.email,
-      lastLogin: date,
+      lastLogin: new Date(),
       name: req.body.name,
       uid: user.user.uid,
+      isAdmin:false,
       //   updatedAt: date,
     };
     const a = await collectionRef.add(newUser);
     // console.log("SignUpUser", user);
-    res.status(200).send(user);
+    res.status(200).send(newUser);
   } catch (e) {
     console.log(e);
     res.status(400).send({ message: "Please check your Signup credentials" });

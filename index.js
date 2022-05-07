@@ -25,19 +25,19 @@ app.use(SignUpRoutes)
 
 //--- Docs folder Details ----
 const DocsFolderRoutes = require('./routes/Dashboard/DocFolder/Folder')
-// const SignUpRoutes = require('./routes/authanticationApi/Register/SignUp')
-
 app.use(DocsFolderRoutes)
-// app.use(SignUpRoutes)
 
 
 
 //--- files Details ----
 const FilesRoutes = require('./routes/Dashboard/Files/File')
-// const SignUpRoutes = require('./routes/authanticationApi/Register/SignUp')
-
 app.use(FilesRoutes)
-// app.use(SignUpRoutes)
+
+
+
+//--- Users Details ----
+const UsersRoutes = require('./routes/Dashboard/Users/Users')
+app.use(UsersRoutes)
 
 
 
