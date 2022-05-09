@@ -38,7 +38,7 @@ router.post("/Login", async (req, res) => {
           console.log(doc.data());
           documents.push({ ...doc.data(), id: doc.id });
         });
-        res.status(200).send({ documents });
+        res.status(200).send( documents[0] );
       });
     // res.status(200).send({ data: resp, aa });
   } catch (e) {
