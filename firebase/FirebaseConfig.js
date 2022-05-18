@@ -16,3 +16,19 @@ const firebaseConfig = {
 // }
 
 module.exports = firebase;
+
+
+
+// taskFlows:[{
+//   "taskName":"",
+//   "id":,
+//   "isActive":true,
+//   "isDeleted":false,
+//   "created":,
+//   "updated":,
+//    "taskList":[
+//   {"users":[{id,name}],"action":""},
+//   {"users":[],"action":""}
+//          ]
+//   }]
+  
