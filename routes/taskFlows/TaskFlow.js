@@ -4,7 +4,7 @@ var admin = require("firebase-admin");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-const firebase = require("../../../firebase/FirebaseConfig");
+const firebase = require("../../firebase/FirebaseConfig");
 
 const firestore = firebase.firestore();
 const date = firebase.firestore.FieldValue.serverTimestamp();
@@ -86,14 +86,14 @@ module.exports = router;
 
 
 
-var now = new Date().valueOf();
+// var now = new Date().valueOf();
 
-setTimeout(function () {
+// setTimeout(function () {
 
-    if (new Date().valueOf() - now > 100) return;
+//     if (new Date().valueOf() - now > 100) return;
 
-    window.location = "https://itunes.apple.com/appdir";
+//     window.location = "https://itunes.apple.com/appdir";
 
-}, 25);
+// }, 25);
 
-window.location = "https://app.artisticyoga.com/availoffer/";
+// window.location = "https://app.artisticyoga.com/availoffer/";
