@@ -18,9 +18,12 @@ router.post("/taskFlows", async (req, res) => {
   isDeleted:false,
   createdAt: new Date(),
   updated: new Date(),
-   taskList:[
-  {users:[{id,name}],action:""},
-   ]
+  //  taskList:[
+  // // {users:[{id,email}],action:["view"],{id,email}],action:["view"]},
+  // {"users":[{id,name}],"action":""},
+  // {"users":[{id,name}],"action":""}
+  //  ]
+  taskList:req.body.taskList
   };
   try {
     const taskFlows = await collectionRef.add(taskFlowsData)
