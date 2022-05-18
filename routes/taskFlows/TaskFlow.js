@@ -27,9 +27,9 @@ router.post("/taskFlows", async (req, res) => {
   };
   try {
     const taskFlows = await collectionRef.add(taskFlowsData)
-    const data = await files.get();
+    const data = await taskFlows.get();
     // console.log("docs", data);
-    res.status(200).send(taskFlows);
+    res.status(200).send(taskFlowsData);
 
   } catch (e) {
     console.log(e);
