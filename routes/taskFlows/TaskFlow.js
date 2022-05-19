@@ -39,25 +39,37 @@ router.post("/taskFlows", async (req, res) => {
 
 
 
+
+
 router.get("/getTaskFlows", async (req, res) => {
       let collectionRef = firestore.collection("taskFlows");
       const queryObject = req.query;
+        const fileId = queryObject["fileId"] ? queryObject["fileId"] : "";
         const docId = queryObject["docId"] ? queryObject["docId"] : "";
     
         
     
-        if(docId){
-            collectionRef = collectionRef.where("docId", "==", docId);
+        if(fileId){
+            collectionRef = collectionRef.where("fileId", "==", fileId);
             
         }
       
     
       try {
-        const files = await collectionRef.get();
-        const allFiles = [];
-            files.docs.forEach((doc) => {
-              allFiles.push({ data: doc.data(), docId: doc.id });
-            });
+        let files;
+        let allFiles = [];
+        if(docId){
+         files = await collectionRef.doc(docId).get();
+         allFiles.push({data:files.data()})
+        }
+        else{
+        files = await collectionRef.get();
+        files.docs.forEach((doc) => {
+          allFiles.push({ data: doc.data(), docId: doc.id });
+        });
+        }
+        
+            
     
         // console.log("docs", data);
         res.status(200).send(allFiles);
