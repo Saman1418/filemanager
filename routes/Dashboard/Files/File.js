@@ -100,6 +100,24 @@ router.delete("/deleteUserFile/:id", async (req, res) => {
   }
 });
 
+
+//----------------------------update UsersFiles------------------------------------
+
+router.put("/updateUserFile/:id", async (req, res) => {
+  let collectionRef = firestore.collection("files");
+  const id = req.params.id;
+  const fileName = req.body.fileName;
+
+  try {
+    await collectionRef.doc(id).update({fileName});
+
+    res.status(200).send({id,fileName});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+
 module.exports = router;
 
 // const getUserFolderData = await collectionRef.get();
