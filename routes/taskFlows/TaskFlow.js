@@ -37,7 +37,7 @@ router.post("/taskFlows", async (req, res) => {
       console.log(taskFlowsData.taskName)
       const data = await collectionRef.doc(allFiles[0].docId)
       let b = await data.update(
-        {taskList: firebase.firestore.FieldValue.arrayUnion({data:taskFlowsData.taskList})}
+        {taskList: taskFlowsData.taskList}
         );
       res.status(200).send(`updated tasklist `);
     }
