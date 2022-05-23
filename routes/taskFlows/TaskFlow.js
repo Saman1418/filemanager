@@ -11,15 +11,16 @@ const date = firebase.firestore.FieldValue.serverTimestamp();
 
 
 // ---------------AddtaskFlows------------------------------------//
-router.post("/taskFlows", async (req, res) => {
-  let collectionRef = firestore.collection("taskFlows");
+router.post("/workFlows", async (req, res) => {
+  let collectionRef = firestore.collection("workFlows");
   const taskFlowsData = {
-  taskName:req.body.taskName,
+  workFlowName:req.body.workFlowName,
   fileId:req.body.fileId,
   isActive:true,
   isDeleted:false,
   createdAt: new Date(),
   updated: new Date(),
+ 
   //  taskList:[
   // // {users:[{id,email}],action:["view"],{id,email}],action:["view"]},
   // {"users":[{id,name}],"action":""},
@@ -28,22 +29,35 @@ router.post("/taskFlows", async (req, res) => {
   taskList:req.body.taskList
   };
   try {
-    let allFiles = [];
-    const data1 = await collectionRef.where('fileId', '==', taskFlowsData.fileId).get();
-    data1.docs.forEach((doc) => {
-      allFiles.push({ data: doc.data(), docId: doc.id });
-    });
-    if(allFiles.length!==0){
-      console.log(taskFlowsData.taskName)
-      const data = await collectionRef.doc(allFiles[0].docId)
-      let b = await data.update(
-        {taskList: firebase.firestore.FieldValue.arrayUnion(taskFlowsData.taskList[0])}
-        );
-      res.status(200).send(`updated tasklist `);
+    
+    if((req.body.workflowId!=null ) ||(req.body.workflowId!=undefined )){
+      let allWorkFlows = [];
+      const fileDocument = await collectionRef.where('fileId', '==', taskFlowsData.fileId).get();
+      fileDocument.docs.forEach((doc) => {
+        allWorkFlows.push({ data: doc.data(), id: doc.id });
+      });
+      if(allWorkFlows.length!==0){
+        allWorkFlows.forEach(async(workFlow)=> {
+          if(workFlow.id==req.body.workflowId){
+            console.log(taskFlowsData.taskName)
+            const data = await collectionRef.doc(workFlow.id)
+            let b = await data.update(
+              {taskList: taskFlowsData.taskList,
+              updated: new Date()}
+              );
+            res.status(200).send(`updated workflow `);
+          }
+
+        });
+       
+      }else{
+        res.status(200).send(`No Matching Workflow`);
+      }
     }
+  
     else{
       const taskFlows = await collectionRef.add(taskFlowsData)
-      const data = await taskFlows.get();
+      // const data = await taskFlows.get();
       res.status(200).send(taskFlowsData);
     }
     
@@ -60,8 +74,8 @@ router.post("/taskFlows", async (req, res) => {
 
 
 // ---------------getTaskFlows details-----------------------------
-router.get("/getTaskFlows", async (req, res) => {
-      let collectionRef = firestore.collection("taskFlows");
+router.get("/getWorkFlows", async (req, res) => {
+      let collectionRef = firestore.collection("workFlows");
       const queryObject = req.query;
         const fileId = queryObject["fileId"] ? queryObject["fileId"] : "";
         const docId = queryObject["docId"] ? queryObject["docId"] : "";
@@ -76,26 +90,27 @@ router.get("/getTaskFlows", async (req, res) => {
     
       try {
         let files;
-        let allFiles = [];
+        let allWorkFlows = [];
         if(docId){
          files = await collectionRef.doc(docId).get();
-         allFiles.push({data:files.data()})
+                 let allWorkFlows = [];
+                 allWorkFlows.push({data:files.data()})
         }
         else{
         files = await collectionRef.get();
         files.docs.forEach((doc) => {
-          allFiles.push({ data: doc.data(), docId: doc.id });
+          allWorkFlows.push({ data: doc.data(), id: doc.id });
         });
         }
         
             
     
         // console.log("docs", data);
-        res.status(200).send(allFiles);
+        res.status(200).send(allWorkFlows);
     
       } catch (e) {
         console.log(e);
-        res.status(400).send({ message: "Error getting taskFlows" });
+        res.status(400).send({ message: "Error getting workFlows" });
       }
     
     });
@@ -103,9 +118,9 @@ router.get("/getTaskFlows", async (req, res) => {
 
     //----------------delete -----------------------------
 
-router.delete("/taskFlowsDelete/:id", async (req, res) => {
+router.delete("/workFlowsDelete/:id", async (req, res) => {
   const id = req.params.id;
-  let collectionRef = firestore.collection("taskFlows");
+  let collectionRef = firestore.collection("workFlows");
 
   try {
     await collectionRef.doc(id).delete();
@@ -119,8 +134,8 @@ router.delete("/taskFlowsDelete/:id", async (req, res) => {
 
 //----------------------------update taskFlow------------------------------------
 
-router.put("/taskFlowsUpdate/:id", async (req, res) => {
-  let collectionRef = firestore.collection("taskFlows");
+router.put("/workFlowsUpdate/:id", async (req, res) => {
+  let collectionRef = firestore.collection("workFlows");
   const id = req.params.id;
   const name = req.body.name;
 
